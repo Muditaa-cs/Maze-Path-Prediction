@@ -15,8 +15,10 @@ O O O X
 
 S-Start, X-Wall, O-Path, E-End
 
+S is 1, O is 2, X is 3, E is 4
+
 In the text file, it should be as such:
 
 3 1 2 2 4 3 2 2 2 3 2 3 2 2 2 3
 
-Run TextPuzzle for maze prediction.
+Run TestPuzzle for maze prediction. For prediction to be made for a different maze, change numbers in data1.txt
