@@ -13,13 +13,7 @@ O X O X
 
 O O O X
 
-S-Start
-
-X-Wall
-
-O-Path
-
-E-End
+S-Start, X-Wall, O-Path, E-End
 
 In the text file, it should be as such:
 
