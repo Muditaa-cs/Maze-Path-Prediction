@@ -4,16 +4,23 @@ This algorithm is used to predict the optimal path of a maze. The neural network
 Width = 4, Height = 4
 
 User's maze:
+
 X S O O
 
 E X O O
+
 O X O X
+
 O O O X
 
 S-Start
+
 X-Wall
+
 O-Path
+
 E-End
 
 In the text file, it should be as such:
+
 3 1 2 2 4 3 2 2 2 3 2 3 2 2 2 3
