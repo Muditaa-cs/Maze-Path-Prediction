@@ -1,0 +1,192 @@
+package puzzle; 
+
+import BasicIO.*;
+import java.util.Scanner;
+import java.util.InputMismatchException;
+import java.util.Random;
+  
+/** This class is a program to serve as a testbed for the PathFinding class. 
+  * 
+  * @PathFinding 
+  * 
+  * @author
+  * 
+  * @version 1.0 ()                                                     */ 
+  
+public class TestPuzzle {     
+     
+    private Scanner input; 
+    private char [ ] [ ] puzzle;
+    private char [ ][ ] maze;
+    private int width, height, depth, source_index, destination_index; 
+          
+    /** The constructor obtains values from user input and performs the tests.              */ 
+     
+    public TestPuzzle ( ) {
+       
+      int choice = -1;
+      depth = 1;
+      int count; 
+      input = new Scanner (System.in);
+      
+      PathFinding path = new PathFinding();       // instance of PathFinding class is called to solve the puzzle 
+  
+      do {
+        try {
+          choice=menu();
+          
+          switch (choice) {
+            
+            case 1:
+              input.nextLine(); 
+              System.out.print("Enter width: "); 
+              width = input.nextInt();             // width from user input
+              System.out.print("Enter height: "); 
+              height = input.nextInt();           // height from user input
+              
+              puzzle = new char[height*depth][width];   // char puzzle is created from width and (depth,height: length column of puzzle)  
+              
+              System.out.println("Enter puzzle below. Only rows of width " + width + " will be accepted.");
+              
+              createMaze(height,width);
+              
+              // input will be line by line of the puzzle (iteration done for as many lines as there are: height*depth) 
+              for ( int t=0 ; t<(height*depth) ; t++ ) {
+                count = 0;                                // count to get characters found on every line    
+                String line = retrieveLine(t);            // line is retrieved from user input
+                System.out.println(line);
+                
+                while ( count < width ) {                 // count to get charAt(0) to charAt(width-1) for one line 
+                  
+                  puzzle[t][count] = line.charAt(count);   // add character to puzzle ( t = line index ) 
+                  
+                  if ( line.charAt(count) == 'S' ) {
+                    source_index = t*width + count;   // source index is found. 't*width+count' calculates the index of S
+                  
+                  }
+                  
+                  if ( line.charAt(count) == 'E' ) {
+                    destination_index = t*width + count;  // destination index is found. 't*width+count' calculates the index of E 
+                  
+                  }
+                  
+                  count++;    // increase in count until all characters of line are obtained 
+                  
+                } 
+                
+              };
+              
+              input.nextLine(); 
+              path.transcribe(puzzle,width,height,depth);                             // puzzle received from user input is transcribed into adjacency matrix 
+              int output = path.breadth_first_search(source_index,destination_index); // matrix undergoes breadth first search to get shortest path, if present
+              System.out.println(output);
+              
+              break; 
+    
+            case 0:
+              System.out.println("Goodbye!"); 
+              break;
+    
+            default:
+              System.out.println("Unrecognized Option");
+    
+          }
+   
+        }
+   
+        catch ( InputMismatchException i ) {
+          input.next(); 
+          System.out.println("Please try correct input.\n");  
+        
+        }
+  
+      } while (choice != 0);       
+         
+    }; // constructor
+    
+    /** This method gives the options for which step is to be carried out next                                        */
+    
+    private int menu() {
+      
+      System.out.println("1. Enter new puzzle "); 
+      System.out.println("0. Quit");
+      return input.nextInt(); 
+    
+    }; // menu 
+    
+    /** This method keeps taking blank input until an actual String is given ( from Prof. Earl Foxwell )              */
+    
+    private String retrieveLine ( int c ) {
+      
+      String line2 = "";
+      char [ ] line1 = new char [width];
+      
+      for ( int n=0 ; n<maze[c].length ; n++ ) {
+        line1[n] = maze[c][n];
+        
+      };
+      
+      for ( int m=0 ; m<line1.length ; m++ ) {
+        line2 = line2 + String.valueOf(line1[m]);
+        
+      };
+      
+      return line2; 
+    
+    }; // retrieveLine
+    
+    /** This method keeps taking blank input until an actual String is given ( from Prof. Earl Foxwell )              */
+    
+    private void createMaze ( int a, int b ) {
+      
+      int ran1;
+      int ran2;
+      int ran3;
+      int ran4;
+      
+      maze = new char[a][b];
+      
+      Random random = new Random();
+      
+      ran1 = random.nextInt(a);
+      ran2 = random.nextInt(b);
+      ran3 = ran1;
+      ran4 = ran2;
+      
+      maze[ran1][ran2] = 'S';
+      
+      while ( (ran3 == ran1) || (ran4 == ran2) ) {
+        ran3 = random.nextInt(a);
+        ran4 = random.nextInt(b);
+        
+      }
+      
+      maze[ran3][ran4] = 'E';
+      
+      for ( int t=0 ; t<maze.length ; t++ ) {
+        for ( int s=0 ; s<maze[t].length ; s++ ) {
+          if ( maze[t][s] != 'S' && maze[t][s] != 'E' ) {
+            double z = random.nextDouble();
+              
+            
+            if ( z < 0.8 ) {
+              maze[t][s] = 'O';
+              
+            }
+            
+            else if ( z >= 0.8 ) {
+              maze[t][s] = 'X';
+            }
+            
+          }
+          
+        };
+        
+      };
+    
+    }; // retrieveLine  
+     
+    public static void main ( String[] args ) { TestPuzzle t = new TestPuzzle(); }; 
+     
+     
+} // TestPuzzle 

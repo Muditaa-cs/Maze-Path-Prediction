@@ -1,0 +1,173 @@
+import BasicIO.*;                // for IO classes
+import static BasicIO.Formats.*; // for field formats
+import static java.lang.Math.*;  // for math constants and functions
+
+
+/** This class represents an team in the Niagara Hockey League. A
+  * team has an team name, a forScore, an againstScore and points.
+  * 
+  * @author
+  * 
+  * @version 1.0 ()                                                     */
+
+public class Layer_IHO {
+    
+    private double [ ] summation_HNodes;     
+    private double [ ] logistic_HNodes; 
+    private double [ ] hidden_DO;     
+    private double [ ] hidden_DI; 
+    private int hidden;         
+    private int point; 
+    
+    public Layer_IHO ( ) { 
+        
+    };  // constructor
+    
+    /** array1 represents either the input or output nodes. array2 represents summation */
+    
+    public double [ ] summation_function1 ( double [ ] [ ] weights, double [ ] array1, int a ) {
+      
+      double sum = 0.0; 
+      System.out.println(weights.length); 
+      double [ ] array2 = new double [a]; 
+      
+      for ( int i=0 ; i<weights[0].length ; i++ ) {
+        for ( int j=0 ; j<weights.length ; j++ ) { 
+          sum = sum + array1[j]*weights[j][i]; 
+          
+        };
+        
+        array2[i] = sum; 
+        sum = 0.0; 
+        
+      }; 
+      
+      return array2; 
+        
+    };  // getTeamName
+    
+    
+    /** array1 represents either the input or output nodes. array2 represents summation */
+    
+    public double [ ] summation_function2 ( double [ ] [ ] weights, double [ ] array1, int a ) {
+      
+      double sum = 0.0;  
+      double [ ] array2 = new double [a]; 
+      
+      for ( int i=0 ; i<a ; i++ ) {
+        for ( int j=0 ; j<weights[0].length ; j++ ) { 
+          sum = sum + array1[j]*weights[i][j]; 
+          
+        };
+        
+        array2[i] = sum; 
+        sum = 0.0; 
+        
+      };
+      
+      return array2; 
+        
+    };  // getTeamName
+                                    
+    
+    public double [ ] activation_function ( double [ ] arr1, int a ) {
+      
+      double [ ] arr2 = new double [a]; 
+      
+      for ( int i=0 ; i<arr1.length ; i++ ) {
+        arr2[i] = sigmoidFormula(arr1[i]);  
+        
+      };
+      
+      return arr2; 
+        
+    };  // getForScore 
+    
+    
+    public double sigmoidFormula ( double a ) {
+      
+      return (1/(1+Math.exp(-a))); 
+        
+    };  // getForScore
+    
+    
+    public double derivativeSigmoid ( double a ) {
+      
+      return sigmoidFormula(a)*(1-sigmoidFormula(a)); 
+        
+    };  // getForScore
+                                   
+    
+    /** a = DO, b = sigmoid, c = DI */ 
+    
+    public double [ ] error_derivativeInput ( double [ ] a, double [ ] b, int d ) {
+      
+      double [ ] c = new double [d]; 
+      
+      for ( int i=0 ; i<a.length ; i++ ) {
+        c[i] = a[i]*derivativeSigmoid(b[i]); 
+        
+      }; 
+      
+      return c; 
+        
+    };  // getAgainstScore
+    
+    
+    /** a3 = DO, a1 = sigmoid function, a2 = actual value */
+    
+    public double [ ] error_derivativeOutput1 ( double [ ] a1, double [ ] a2, int b ) {
+      
+      double [ ] a3 = new double[b]; 
+      
+      for ( int i=0 ; i<a1.length ; i++ ) {
+        a3[i] = a1[i] - a2[i];
+        
+      }; 
+      
+      return a3; 
+            
+    };  // getPoint
+      
+    /** a1 = DI, a2 = DO */ 
+     
+    public double [ ] error_derivativeOutput2 ( double [ ] a1, double [ ] [ ] weights, int c ) {
+      
+      double sum = 0.0; 
+      double [ ] a2 = new double [c]; 
+      
+      for ( int i=0 ; i<weights.length ; i++ ) {
+        for ( int j=0 ; j<weights[i].length ; j++ ) {
+          sum = sum + a1[j]*weights[i][j]; 
+          
+        };
+        
+        a2[i] = sum; 
+        sum = 0.0; 
+        
+      };
+      
+      return a2; 
+            
+    };  // getPoint
+      
+      
+    public double [ ] [ ] weight_update ( double [ ] [ ] weights, double [ ] a, double [ ] b, double c ) {
+      
+      double error; 
+      
+      for ( int i=0 ; i<weights.length ; i++ ) {
+        for ( int j=0 ; j<weights[i].length ; j++ ) {
+          error = a[j]*b[j]*c; 
+          weights[i][j] = weights[i][j] - error; 
+          
+        }; 
+        
+      }; 
+      
+      return weights; 
+            
+    };  // getPoint 
+    
+    
+}  // Layer_IHO
