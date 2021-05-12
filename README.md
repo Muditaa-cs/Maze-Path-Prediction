@@ -1,5 +1,5 @@
 # Maze-Path-Prediction
-This algorithm is used to predict the optimal path of a maze. The neural network trains on random mazes and their optimal lengths. The user then chooses a new maze to be input in a text file as provided in data1.txt. The maze in the text file is as such: it contains the maze in a line in terms of numbers (there are as many numbers as width x height (the width and height that the neural network has trained on)). An example would be as such:
+This algorithm is used to predict the optimal path of a maze. The neural network trains on random mazes and their optimal lengths. The user then chooses a new maze to be input in a text file as provided to be data1.txt. The maze in the text file is as such: it contains the maze in a line in terms of numbers (there are as many numbers as width x height (the width and height that the neural network has trained on)). An example would be as such:
 
 Width = 4, Height = 4
 
