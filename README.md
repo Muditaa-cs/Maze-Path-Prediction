@@ -5,6 +5,7 @@ Width = 4, Height = 4
 
 User's maze:
 X S O O
+
 E X O O
 O X O X
 O O O X
